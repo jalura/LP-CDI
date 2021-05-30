@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <!-- Usamos boxicons -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+
+    <style>
+
+        #header {
+            width: 100%;
+            height: 50px;
+            background-color:darkslategrey;
+        }
+
+        #logotipo {
+            display: block;
+            margin: auto;
+            width: 100%;
+            max-width: 1200px;
+            min-width: 500px;
+        }
+
+        #titulo {
+            display: block;
+            margin: auto;
+            width: 50%;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size:x-large;
+            color: floralwhite;
+            text-align: center;
+            font-weight: bold;
+            padding-bottom: 3px;
+        }
+
+        form {
+            /* Centrar el formulario en la página */
+            margin: 0 auto;
+            width: 1000px;
+            /* Esquema del formulario */
+            padding: 1em;
+            border: 1px solid #CCC;
+            border-radius: 1em;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        form li + li {
+            margin-top: 1em;
+        }
+
+        label {
+            /* Tamaño y alineación uniforme */
+            display: inline-block;
+            width: 85px;
+            text-align: right;
+            font-size: 12px;
+        }
+
+        input, textarea {
+            /* Para asegurarse de que todos los campos de texto tienen la misma configuración de letra
+                Por defecto, las áreas de texto tienen un tipo de letra monoespaciada */
+            font: 1em sans-serif;
+            /* Tamaño uniforme del campo de texto */
+            width: 350px;
+            box-sizing: border-box;
+            font-size: 13px;
+            /* Hacer coincidir los bordes del campo del formulario */
+            border: 1px solid #999;
+        }
+
+        select {
+            width: 180px;
+            font-size: 13px;
+        }
+
+        option {
+            width: 170px;
+            font-size: 13px;
+        }
+
+        textarea {
+            /* Alinear los campos de texto multilínea con sus etiquetas */
+            vertical-align: top;
+            /* Proporcionar espacio para escribir texto */
+            height: 6em;
+            resize: none;
+        }
+
+        input:enabled {
+            color: rgb(60, 73, 53);
+        }
+
+        input:disabled {
+            color: rgb(103, 139, 132);
+        }
+
+        .btn-primary,
+        .btn-primary:hover,
+        .btn-primary:active,
+        .btn-primary:visited,
+        .btn-primary:focus {
+            background-color: #0a8f3d;
+            border-color: #0a8f3d;
+        }
+
+	</style>
+
+    <title>IMSS Problematica - CDI / BIOMEDICO</title>
+  </head>
+  <body>
+
+    <div id="container">
+        <div id="header">
+          <div id="titulo">PROBLEMATICA - CDI / BIOMEDICO</div>
+        </div>
+      </div>
+  
+    <% if (problema) { %>
+
+    <div class="container mt-4">
+        <div class="card border-success">
+            <div class="card-header">Registro de Problematica CDI / BIOMEDICO</div>     
+            <div class="card-body">
+                <form action="/cdi/actualizaOOAD" method="POST" >
+
+                    <div >
+                        <input type="text" id="id" name="id" value="<%= problema.CVE_OOAD_PROBLEMATICA %>" hidden width="10px">
+                        <label for="problema" class="form-label">Clave OOAD: </label>
+                        <input type="text" id="CLAVE_OOAD_PROBLEMATICA" name="CLAVE_OOAD_PROBLEMATICA" value="<%= problema.CVE_OOAD_PROBLEMATICA %>" readonly disabled="disabled" tabindex="1"><br>
+                    </div>
+
+                    <div >
+                        <label for="problema" class="form-label">Responsable: </label>
+                        <input type="text" id="NOM_RESPONSABLE" name="NOM_RESPONSABLE" value="<%= problema.NOM_RESPONSABLE %>" readonly disabled="disabled" tabindex="2"><br>
+                    </div>
+
+                    <div >
+                        <label for="problema" class="form-label">Descripción: </label>
+                        <textarea type="text" id="DES_OTRO" name="DES_OTRO" tabindex="3"><%= problema.DES_OTRO %></textarea><br>
+                    </div>
+
+                    <div >
+                        <label for="problema" class="form-label">OOAD: </label>
+                        <input type="text" id="OOAD_NOMBRE" name="OOAD_NOMBRE" value="<%= problema.OOAD_NOMBRE %>" readonly disabled="disabled" tabindex="4"><br>
+                    </div>
+
+                    <div >
+                        <label for="problema" class="form-label">Problematica: </label>
+                        <input type="text" id="PROBLEMATICA_NOMBRE" name="PROBLEMATICA_NOMBRE" value="<%= problema.PROBLEMATICA_NOMBRE %>" readonly disabled="disabled" tabindex="5"><br>
+                    </div>
+
+                    <div >
+                        <label for="problema" class="form-label">Status: </label>
+                        <select id="estado" name="estado" >
+                            <option <%= problema.STATUS=='Pendientes' ? "selected" : '' %> value="1">Pendientes</option>
+                            <option <%= problema.STATUS=='En Atención' ? "selected" : '' %> value="2">En Atención</option>
+                            <option <%= problema.STATUS=='Atendidas' ? "selected" : '' %> value="3">Atendidas</option>
+                        </select>
+                    </div>
+
+                    <div >
+                        <label for="problema" class="form-label">Nivel: </label>
+                        <select id="nivel" name="nivel" >
+                            <option <%= problema.NIVEL=='No Aplica' ? "selected" : '' %> value="1">No Aplica</option>
+                            <option <%= problema.NIVEL=='Sin Problemática' ? "selected" : '' %> value="2">Sin Problemática</option>
+                            <option <%= problema.NIVEL=='Bajo' ? "selected" : '' %> value="3">Bajo</option>
+                            <option <%= problema.NIVEL=='Medio' ? "selected" : '' %> value="4">Medio</option>
+                            <option <%= problema.NIVEL=='Alto' ? "selected" : '' %> value="5">Alto</option>
+                            <option <%= problema.NIVEL=='Crítico' ? "selected" : '' %> value="6">Crítico</option>
+                        </select>
+                    </div>
+
+                    <div >
+                        <label for="problema" class="form-label">Fecha alta: </label>
+                        <input type="text" id="FEC_ALTA" name="FEC_ALTA" value="<%= problema.FEC_ALTA %>" readonly disabled="disabled" tabindex="7"><br><br>
+                    </div>
+
+                    <a href="/cdi/consultaOOAD" class="btn btn-secondary" >Regresar</a>
+                    <button type="submit" class="btn btn-primary" tabindex="8">Actualizar</button>     
+
+                </form>
+            </div>   
+        </div>
+    </div>
+
+    <% } %>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>
